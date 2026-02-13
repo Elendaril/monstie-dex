@@ -1,42 +1,331 @@
+/* --- GLOBAL RESETS & THEME --- */
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --accent: #00d2ff; /* Sci-fi Blue */
+  --highlight: #ffcc00; /* Monster Hunter Gold */
+  --border: #333;
+  --danger: #ff4444;
+  --success: #4ade80;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* --- THE FIX: Center the React App Wrapper --- */
 #root {
-  max-width: 1280px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 100vh;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* --- LAYOUT UTILS --- */
+.container {
+  width: 100%;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95); /* Make it darker */
+  z-index: 9999; /* Force it to top */
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 20px 0;
+  opacity: 0.5;
+}
+
+/* --- SEARCH BAR --- */
+.search-bar-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  position: sticky;
+  top: 10px;
+  z-index: 50;
+  background: rgba(18, 18, 18, 0.95);
+  padding: 10px 0;
+  backdrop-filter: blur(5px);
+  width: 100%;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 12px 12px 40px;
+  font-size: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: white;
+  border-radius: 8px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* --- MONSTER LIST (Grid) --- */
+.monster-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+@media (min-width: 600px) {
+  .monster-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  to {
-    transform: rotate(360deg);
+}
+@media (min-width: 900px) {
+  .monster-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+.monster-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.monster-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+/* --- DETAIL PAGE --- */
+.detail-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 25px;
+  margin-top: 10px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  padding: 10px 0;
+  transition: color 0.2s;
+}
+.back-button:hover {
+  color: var(--accent);
+}
+
+/* --- TABS (Variants) --- */
+.toggle-container {
+  display: flex;
+  background: #111;
+  border-radius: 8px;
+  padding: 4px;
+  border: 1px solid var(--border);
+}
+
+.toggle-btn {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  text-transform: capitalize;
+}
+
+.toggle-btn.active {
+  background: var(--card-bg);
+  color: var(--text-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-btn.active-feral {
+  background: #4a1a1a;
+  color: #ff6b6b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* --- STATS LAYOUT --- */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 15px 0;
+  color: var(--accent);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stats-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+@media (min-width: 768px) {
+  .stats-layout {
+    grid-template-columns: 1.2fr 0.8fr;
   }
 }
 
-.card {
-  padding: 2em;
+/* --- RESISTANCE GRIDS --- */
+.resist-row {
+  margin-bottom: 20px;
+}
+.resist-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.resist-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  background: #151515;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+.resist-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  padding: 4px 0;
 }
 
-.read-the-docs {
-  color: #888;
+/* Arrows */
+.arrow-very-weak {
+  color: #ff4444;
+  font-weight: 900;
+  letter-spacing: -2px;
+  font-size: 1.2em;
+}
+.arrow-weak {
+  color: #ff6b6b;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.arrow-neutral {
+  color: #444;
+}
+.arrow-resist {
+  color: #4dabf7;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.arrow-very-resist {
+  color: #00d2ff;
+  font-weight: 900;
+  letter-spacing: -2px;
+  font-size: 1.2em;
+}
+
+/* --- ANATOMY / WEAPONS --- */
+.part-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+.part-name {
+  font-weight: 500;
+  color: #ddd;
+}
+.part-weaks {
+  display: flex;
+  gap: 8px;
+}
+
+.weapon-box {
+  width: 30px;
+  height: 30px;
+  background: #222;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #333;
+  transition: all 0.2s;
+}
+
+/* Weapon Colors (Applied to the box wrapper) */
+.weapon-best {
+  background: rgba(74, 222, 128, 0.2);
+  border-color: #4ade80;
+  box-shadow: 0 0 5px rgba(74, 222, 128, 0.2);
+}
+.weapon-good {
+  border-color: #86efac;
+  background: rgba(134, 239, 172, 0.05);
+}
+.weapon-neutral {
+  border-color: #333;
+}
+.weapon-bad {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+}
+
+/* --- ENRAGED & NOTES --- */
+.enraged-box {
+  margin-top: 20px;
+  background: rgba(255, 204, 0, 0.1);
+  border: 1px solid #ffcc00;
+  padding: 12px;
+  border-radius: 8px;
+  color: #ffcc00;
+}
+
+.notes-section {
+  margin-top: 25px;
+  background: #151515;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 3px solid var(--text-secondary);
+  line-height: 1.5;
+  color: #ccc;
 }

@@ -6,4 +6,12 @@ export const monsters = [
   { id: 5, name: 'Lagiacrus', weakness: 'Fire', type: 'Tech' },
   { id: 6, name: 'Kulu-Ya-Ku', weakness: 'Water', type: 'Tech' },
   { id: 7, name: 'Velkhana', weakness: 'Fire', type: 'Tech' },
+  {
+    id: 8,
+    name: 'Chatacabra',
+    weakness: 'Fire',
+    type: 'Power',
+    // Add variations or "Feral" names here if they are distinct enough
+    aliases: ['Feral Chatacabra', 'Chatacabra Subspecies'],
+  },
 ];
